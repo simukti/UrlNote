@@ -18,7 +18,7 @@ class Model_DbTable_Url extends \Zend_Db_Table_Abstract
     public function findAllRecentUrl()
     {
         $select = $this->select()->order('createdAt DESC');
-        return $this->fetchAll($select->limit(20));
+        return $this->fetchAll($select);
     }
     
     public function insertUrl(array $data)
