@@ -1,0 +1,23 @@
+<?php $url = $this->url; ?>
+
+<div class="url">
+    <div class="thumbnail">
+        <img class="image<?php echo $url->note ? ' note' : '';?>" src="<?php echo $url->image; ?>" alt="<?php echo $url->title; ?>" 
+             <?php if($url->note) : ?>title="<?php echo sprintf("%s | %s", $url->title, $url->note); ?><?php endif;?>"/>
+        <!-- <div class="menu">
+            <a href="/edit"><i class="icon-edit"></i></a> - 
+            <a href="/delete"><i class="icon-remove-sign"></i></a>
+        </div> -->
+    </div>
+    <div class="detail">
+        <h1><a href="<?php echo $url->url;?>" target="_blank"><?php echo $url->title;?></a></h1>
+        <p class="meta">
+            <span class="date"><i class="icon-calendar"></i> <?php echo $url->createdAt; ?></span>
+            <span class="tags">
+                <?php foreach($url->getTag() as $tag) : ?>
+                    <a href="<?php echo $this->url(array('slug' => $tag->slug), 'tag');?>"> <?php echo $tag->name; ?></a>
+                <?php endforeach;?>
+            </span>
+        </p>
+    </div>
+</div>

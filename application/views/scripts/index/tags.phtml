@@ -1,0 +1,13 @@
+<div class="container_16 clearfix">
+    <?php if($this->tags->count()) : ?>
+    <div class="grid_16">
+        <div class="tags_list">
+            <p class="tags">
+            <?php foreach($this->tags as $tag) : ?>
+                <a href="<?php echo $this->url(array('slug' => $tag->slug), 'tag');?>"><?php echo $tag->name; ?></a>
+            <?php endforeach;?>
+            </p>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>

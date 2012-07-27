@@ -1,0 +1,21 @@
+<div class="container_16 clearfix">
+    <?php if(isset($this->errorMessage)) : ?>
+        <?php echo $this->partial('_notFound.phtml', array('message' => $this->errorMessage));?>
+        <?php else : ?>
+            <?php if(count($this->paginator)) : ?>
+                <div class="grid_16">
+                    <?php echo $this->paginationControl($this->paginator, 'Sliding', '_paginator.phtml');?>
+                </div>
+                <div class="grid_16">
+                    <h1><?php echo sprintf("Tag '%s' (%s halaman)", $this->slug, $this->paginator->count()); ?></h1>
+                </div>
+                <?php foreach($this->paginator as $url) : ?>
+                    <div class="grid_8">
+                        <?php echo $this->partial('index/_url.phtml', array('url' => $url)); ?>
+                    </div>
+                <?php endforeach;?>
+                <?php else : ?>
+                    <?php echo $this->partial('_notFound.phtml', array('message' => sprintf("tag '%s' tidak mempunyai data url.", $this->slug)));?>
+            <?php endif;?>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,7 @@
+{
+    "minimum-stability": "dev",
+    "require": {
+        "simukti/zf1": "1.11.12",
+        "pimple/pimple": "1.0.0"
+    }
+}

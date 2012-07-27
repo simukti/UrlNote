@@ -1,0 +1,12 @@
+<div class="container_16 clearfix">
+    <?php if(count($this->paginator)) : ?>
+        <div class="grid_16">
+            <?php echo $this->paginationControl($this->paginator, 'Sliding', '_paginator.phtml');?>
+        </div>
+        <?php foreach($this->paginator as $url) : ?>
+            <div class="grid_8">
+                <?php echo $this->partial('index/_url.phtml', array('url' => $url)); ?>
+            </div>
+        <?php endforeach;?>
+    <?php endif;?>
+</div>

@@ -1,0 +1,42 @@
+<?php echo $this->docType(); ?>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <!--[if IE]>
+        <meta content='IE=10; IE=9' http-equiv='X-UA-Compatible'/>
+        <style type="text/css"> .gradient { filter: none; }</style>
+    <![endif]-->
+    <?php $this->headLink()->prependStylesheet('/assets/css/base.css'); ?>
+    <?php $this->headLink()->appendStylesheet('/assets/css/app.css'); ?>
+    <?php $this->headTitle('UrlNote')->setSeparator(' / '); ?>
+    
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headTitle(); ?>
+    <?php echo $this->headLink(); ?>
+    <?php echo $this->headStyle(); ?>
+</head>
+<body class="simukti">
+    <div id="header">
+        <div class="container_16 clearfix">
+            <div class="grid_16">
+                <?php echo $this->iconify($this->navigation()->menu()->setUlClass('block_nav top_nav_left')->setMaxDepth(0)->renderMenu()); ?>
+            </div>
+        </div>
+    </div>
+    <div id="section">
+        <?php echo $this->layout()->content; ?>
+    </div>
+    <div id="footer">
+        <?php echo $this->render('_footer.phtml'); ?>
+    </div>
+    
+    <?php $this->getJquery(); ?>
+    <?php $this->headScript()->appendFile('/assets/js/jquery.cluetip.min.js', 'text/javascript'); ?>
+    
+    <?php $this->inlineScript()->captureStart(); ?>
+    $('img.note').cluetip({splitTitle: '|', width: '360px'});
+    <?php $this->inlineScript()->captureEnd(); ?>
+    
+    <?php echo $this->headScript(); ?>
+    <?php echo $this->inlineScript(); ?>
+</body></html>
