@@ -48,7 +48,7 @@ class Service_Container
      */
     static public function getServiceList()
     {
-        return self::$container->keys();
+        return self::getContainer()->keys();
     }
     
     static protected function _initProtectedServices()

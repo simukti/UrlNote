@@ -19,4 +19,10 @@ class Model_DbTable_UrlTag extends \Zend_Db_Table_Abstract
             'refColumns' => 'id'
         )
     );
+    
+    public function deleteUrlTag($urlId)
+    {
+        $delete = $this->delete('url = ' . $urlId);
+        return $delete;
+    }
 }

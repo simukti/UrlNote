@@ -1,7 +1,7 @@
 <div class="container_16 clearfix">
     <?php if(isset($this->errorMessage)) : ?>
         <?php echo $this->partial('_notFound.phtml', array('message' => $this->errorMessage));?>
-        <?php else : ?>
+    <?php else : ?>
             <?php if(count($this->paginator)) : ?>
                 <div class="grid_16">
                     <?php echo $this->paginationControl($this->paginator, 'Sliding', '_paginator.phtml');?>

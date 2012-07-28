@@ -4,7 +4,9 @@
         <div class="tags_list">
             <p class="tags">
             <?php foreach($this->tags as $tag) : ?>
-                <a href="<?php echo $this->url(array('slug' => $tag->slug), 'tag');?>"><?php echo $tag->name; ?></a>
+                <?php if($tag->getUrl()->count() > 0) : ?>
+                    <a href="<?php echo $this->url(array('slug' => $tag->slug), 'tag');?>"><?php echo $tag->name; ?></a>
+                <?php endif;?>
             <?php endforeach;?>
             </p>
         </div>

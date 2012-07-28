@@ -66,8 +66,62 @@ class IndexController extends ControllerAction
         $this->view->form = $form;
         
         if($request->isPost() && $form->isValid($request->getPost())) {
-            if($c['table.url']->insertUrl($form->getValues())) {
+            if($c['table.url']->saveUrl($form->getValues())) {
                 $this->_helper->redirector->gotoRouteAndExit(array(), 'default');
+            }
+        }
+    }
+    
+    public function editAction()
+    {
+        $request = $this->getRequest();
+        $id      = $request->getParam('id');
+        $c       = Container::getContainer();
+        $url     = $c['table.url']->fetchRow(array('id = ?' => $id));
+        if(! $url) {
+            $this->getResponse()->setHttpResponseCode(404);
+            $this->view->errorMessage = sprintf("Url id '%s' tidak ditemukan.", $id);
+            $this->render('tag');
+        } else {
+            $form    = $c['form.url'];
+            $form->injectUrl($url);
+            $this->view->form = $form;
+            
+            if($request->isPost() && $form->isValid($request->getPost())) {
+                $data       = $form->getValues();
+                $data['id'] = $id;
+                
+                if($c['table.url']->saveUrl($data)) {
+                    $this->_helper->redirector->gotoRouteAndExit(array(), 'default');
+                }
+            }
+            $this->render('add');
+        }
+    }
+    
+    public function deleteAction()
+    {
+        $id = $this->_request->getParam('id');
+        $slug = $this->_request->getParam('slug');
+        $md5 = $this->_request->getParam('md5');
+        
+        if($md5 !== md5($id.$slug)) {
+            $this->getResponse()->setHttpResponseCode(403);
+            $this->view->errorMessage = sprintf("Request delete tidak valid.");
+            $this->render('tag');
+        } else {
+            $url = Container::get('table.url')->fetchRow(array('id = ?' => $id));
+            if($url) {
+                $this->_helper->layout->disableLayout();
+                $this->_helper->viewRenderer->setNoRender();
+                $delete = Container::get('table.url')->deleteUrl($url);
+                if($delete) {
+                    $this->_redirect($this->getRequest()->getHeader('referer'));
+                }
+            } else {
+                $this->getResponse()->setHttpResponseCode(404);
+                $this->view->errorMessage = sprintf("URL tidak ada.");
+                $this->render('tag');
             }
         }
     }

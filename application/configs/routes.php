@@ -46,4 +46,28 @@ return array(
             'page' => '\d+'
         )
     ),
+    'edit' => array(
+        'type'  => 'Zend_Controller_Router_Route',
+        'route' => '/edit/:id',
+        'defaults' => array(
+            'controller' => 'index',
+            'action'     => 'edit'
+        ),
+        'reqs' => array(
+            'id' => '\d+'
+        )
+    ),
+    'delete' => array(
+        'type'  => 'Zend_Controller_Router_Route',
+        'route' => '/delete/:id/:slug/:md5',
+        'defaults' => array(
+            'controller' => 'index',
+            'action'     => 'delete'
+        ),
+        'reqs' => array(
+            'id'   => '\d+',
+            'slug' => '([a-zA-Z0-9\-_]+)',
+            'md5'  => '([a-f0-9]+)',
+        )
+    )
 );

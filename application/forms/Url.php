@@ -51,4 +51,20 @@ class Form_Url extends \Zend_Form
             )
         ));
     }
+    
+    public function injectUrl(\Model_Row_Url $url)
+    {
+        $tag  = array_map(function($tagName) { return $tagName['name']; }, $url->getTag()->toArray());
+        $tags = implode(', ', $tag);
+        
+        $this->setDefaults(array(
+            'title' => $url->title,
+            'url'   => $url->url,
+            'note'  => $url->note,
+            'tags'  => $tags
+        ));
+        
+        $this->getElement('url')->removeValidator('Db_NoRecordExists');
+        return $this;
+    }
 }

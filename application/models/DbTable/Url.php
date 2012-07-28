@@ -21,40 +21,36 @@ class Model_DbTable_Url extends \Zend_Db_Table_Abstract
         return $this->fetchAll($select);
     }
     
-    public function insertUrl(array $data)
+    public function saveUrl(array $data)
     {
-        $url = $this->insert(array(
+        $formData = array(
             'title' => ucwords($data['title']),
             'slug'  => Sluggify::create($data['title']),
             'url'   => $data['url'],
             'note'  => $data['note'],
-        ));
+        );
         
-        $c    = Container::getContainer();
-        $tags = preg_split("/[,]+/", $data['tags']);
-        
-        foreach($tags as $value) {
-            $tagsData = array();
-            $name     = trim($value);
-            $slug     = Sluggify::create($value);
-            
-            $tagsData['name'] = trim($name);
-            $tagsData['slug'] = $slug;
-            
-            $tagExists = $c['table.tag']->findOneBySlug($slug);
-            
-            if(! $tagExists) {
-                $tag = $c['table.tag']->insert($tagsData);
-            } else {
-                $tag = $tagExists['id'];
-            }
-            
-            $c['table.urlTag']->insert(array(
-                'url' => $url,
-                'tag' => $tag
-            ));
+        if(! isset($data['id'])) {
+            $this->insert($formData);
+            $urlId  = $this->getAdapter()->lastInsertId();
+        } else {
+            $this->update($formData, array('id = ?' => $data['id']));
+            $urlId  = $data['id'];
         }
         
-        return $url;
+        $tags = preg_split("/[,]+/", $data['tags']);
+        Container::get('table.tag')->updateTags($urlId, $tags);
+        
+        return $urlId;
+    }
+    
+    public function deleteUrl(\Model_Row_Url $url)
+    {
+        // delete urlTag first
+        if(count($url->getTag()->toArray()) > 0) {
+            Container::get('table.urlTag')->deleteUrlTag($url->id);
+        }
+        $delete = $this->delete('id = ' . $url->id);
+        return $delete;
     }
 }
