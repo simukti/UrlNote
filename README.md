@@ -31,4 +31,3 @@ TODO
 ------------
 
 *  Url screenshot
-*  Update & Delete
