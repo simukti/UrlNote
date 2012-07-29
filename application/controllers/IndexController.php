@@ -101,9 +101,9 @@ class IndexController extends ControllerAction
     
     public function deleteAction()
     {
-        $id = $this->_request->getParam('id');
-        $slug = $this->_request->getParam('slug');
-        $md5 = $this->_request->getParam('md5');
+        $id     = $this->_request->getParam('id');
+        $slug   = $this->_request->getParam('slug');
+        $md5    = $this->_request->getParam('md5');
         
         if($md5 !== md5($id.$slug)) {
             $this->getResponse()->setHttpResponseCode(403);
